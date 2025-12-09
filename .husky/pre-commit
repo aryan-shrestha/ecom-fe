@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged (formatting and linting on staged files)
+npx lint-staged
+
+# Check if project builds properly
+echo "🔨 Building project..."
+npm run build
+
+# If build succeeds, continue with commit
+echo "✅ Pre-commit checks passed!"
