@@ -2,8 +2,8 @@
 npx lint-staged
 
 # Check if project builds properly
-echo "🔨 Building project..."
+echo "Building project..."
 npm run build
 
 # If build succeeds, continue with commit
-echo "✅ Pre-commit checks passed!"
+echo "Pre-commit checks passed"
