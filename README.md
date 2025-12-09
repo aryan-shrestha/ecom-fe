@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# E-Commerce Frontend
 
 ## Getting Started
 
-First, run the development server:
+First, install dependencies:
+
+```bash
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Development
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Available Scripts
 
-## Learn More
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run format       # Format all code with Prettier
+npm run format:check # Check code formatting
+npm run type-check   # Run TypeScript type checking
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/
+│   ├── (dashboard)/     # Dashboard routes with sidebar
+│   ├── (public)/        # Public routes with navbar
+│   ├── (superadmin)/    # Super admin routes
+│   └── styles/          # Global styles
+├── components/
+│   ├── custom/          # Custom components
+│   └── ui/              # UI components (shadcn/ui)
+├── hooks/               # Custom React hooks
+├── lib/                 # Utility functions
+└── repository/          # Data layer
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Code Quality & Git Hooks
 
-## Deploy on Vercel
+This project uses **pre-commit hooks** to maintain code quality. All commits are automatically checked for:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Pre-commit Checks
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Code Formatting** - Prettier automatically formats your code
+2. **Linting** - ESLint checks for code quality issues
+3. **Type Safety** - Prevents use of `any` type in TypeScript
+4. **Build Verification** - Ensures the project builds successfully
+
+### Commit Message Format
+
+Commits must follow [Conventional Commits](https://www.conventionalcommits.org/) format:
+
+```
+<type>(<scope>): <subject>
+```
+
+**Valid types:** `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+
+**Examples:**
+
+```bash
+git commit -m "feat: add user authentication"
+git commit -m "fix: resolve navigation bug on mobile"
+git commit -m "docs: update README with setup instructions"
+```
+
+For more details, see [HOOKS.md](./HOOKS.md).
+
+## Technologies
+
+- **Framework:** Next.js 16 (App Router with Turbopack)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS 4
+- **UI Components:** Radix UI + shadcn/ui
+- **Code Quality:** ESLint, Prettier, Husky
+- **Commit Standards:** Commitlint
