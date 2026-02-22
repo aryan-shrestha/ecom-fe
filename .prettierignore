@@ -1,0 +1,22 @@
+.next
+out
+dist
+build
+coverage
+node_modules
+
+# logs
+*.log
+
+# lockfiles (optional; some teams keep these formatted as-is)
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# generated
+*.min.*
+*.map
+
+# misc
+.vercel
+.turbo
