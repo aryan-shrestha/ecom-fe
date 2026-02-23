@@ -16,23 +16,6 @@ import type {
 import { productsKeys } from './products.keys';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import * as productsApi from '../api/products.api';
-import type {
-  AddProductImageRequest,
-  AdjustStockRequest,
-  AssignCategoriesRequest,
-  CreateCategoryRequest,
-  CreateProductRequest,
-  CreateVariantRequest,
-  ProductListFilters,
-  ReorderImagesRequest,
-  UpdateProductRequest,
-  UpdateVariantRequest,
-  UploadProductImageRequest,
-  UploadVariantImageRequest,
-} from '../types/products.types';
-import { productsKeys } from './products.keys';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // Query hooks
 export function useProductsListQuery(filters?: ProductListFilters) {

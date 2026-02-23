@@ -8,12 +8,6 @@ import { QUERY_CACHE_TIME, QUERY_STALE_TIME } from '@/config/constants';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import { ErrorBoundary } from '@/components/common/ErrorBoundary';
-import { ThemeProvider } from '@/components/theme/theme-provider';
-import { QUERY_CACHE_TIME, QUERY_STALE_TIME } from '@/config/constants';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
     () =>

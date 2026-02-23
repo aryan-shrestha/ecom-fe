@@ -11,12 +11,6 @@ import { ProductForm } from '@/features/products/components/ProductForm';
 import { ROUTES } from '@/lib/routes/paths';
 import { ArrowLeft } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import { type CreateProductFormData, useCreateProductMutation } from '@/features/products';
-import { ProductForm } from '@/features/products/components/ProductForm';
-import { ROUTES } from '@/lib/routes/paths';
-import { ArrowLeft } from 'lucide-react';
-
 export default function NewProductPage() {
   const router = useRouter();
   const createProductMutation = useCreateProductMutation();

@@ -5,10 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useAuth } from '@/features/auth';
 import { useLogoutAllMutation } from '@/features/auth';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuth } from '@/features/auth';
-import { useLogoutAllMutation } from '@/features/auth';
 
 export default function AccountPage() {
   const { user } = useAuth();

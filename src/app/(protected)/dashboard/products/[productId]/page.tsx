@@ -36,36 +36,6 @@ import { VariantManagement } from '@/features/products/components/VariantManagem
 import { ROUTES } from '@/lib/routes/paths';
 import { Archive, ArrowLeft, CheckCircle, Loader2 } from 'lucide-react';
 
-import { LoadingBlock } from '@/components/common/LoadingBlock';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import {
-  type AddProductImageFormData,
-  type AdjustStockFormData,
-  type CreateVariantFormData,
-  ProductStatus,
-  type UpdateProductFormData,
-  useAddProductImageMutation,
-  useAdjustStockMutation,
-  useArchiveProductMutation,
-  useAssignCategoriesMutation,
-  useCreateVariantMutation,
-  useDeactivateVariantMutation,
-  useProductDetailQuery,
-  usePublishProductMutation,
-  useRemoveProductImageMutation,
-  useUpdateProductMutation,
-  useUploadProductImageMutation,
-  useUploadVariantImageMutation,
-} from '@/features/products';
-import { CategoryManagement } from '@/features/products/components/CategoryManagement';
-import { ImageManagement } from '@/features/products/components/ImageManagement';
-import { ProductEditForm } from '@/features/products/components/ProductEditForm';
-import { InventoryDisplay, StockManagement } from '@/features/products/components/StockManagement';
-import { VariantManagement } from '@/features/products/components/VariantManagement';
-import { ROUTES } from '@/lib/routes/paths';
-import { Archive, ArrowLeft, CheckCircle, Loader2 } from 'lucide-react';
 
 export default function ProductDetailPage() {
   const params = useParams();
