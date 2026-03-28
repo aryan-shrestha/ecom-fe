@@ -5,10 +5,6 @@ import './globals.css';
 import { Providers } from './providers';
 import { siteConfig } from '@/config/site';
 
-import './globals.css';
-import { Providers } from './providers';
-import { siteConfig } from '@/config/site';
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {

@@ -4,8 +4,6 @@ import type { NextRequest } from 'next/server';
 import { COOKIE_NAMES } from './src/config/constants';
 import { ROUTES } from './src/lib/routes/paths';
 
-import { COOKIE_NAMES } from './src/config/constants';
-import { ROUTES } from './src/lib/routes/paths';
 
 /**
  * Middleware for route protection based on refresh_token cookie presence
