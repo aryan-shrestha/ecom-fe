@@ -1,13 +1,7 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -16,16 +10,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  type CreateProductFormData,
-  createProductSchema,
-} from "@/features/products";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useForm } from "react-hook-form";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { type CreateProductFormData, createProductSchema } from '@/features/products';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
 
 interface ProductFormProps {
   onSubmit: (data: CreateProductFormData) => void;
@@ -37,10 +28,9 @@ export function ProductForm({ onSubmit, isPending, error }: ProductFormProps) {
   const form = useForm<CreateProductFormData>({
     resolver: zodResolver(createProductSchema),
     defaultValues: {
-      name: "",
-      slug: "",
-      description_short: "",
-      description_long: "",
+      name: '',
+      description_short: '',
+      description_long: '',
       tags: [],
       featured: false,
       sort_order: 0,
@@ -50,7 +40,7 @@ export function ProductForm({ onSubmit, isPending, error }: ProductFormProps) {
   const handleTagsChange = (value: string) => {
     // Convert comma-separated string to array
     const tags = value
-      .split(",")
+      .split(',')
       .map((tag) => tag.trim())
       .filter((tag) => tag);
     return tags;
@@ -62,9 +52,7 @@ export function ProductForm({ onSubmit, isPending, error }: ProductFormProps) {
         <Card>
           <CardHeader>
             <CardTitle>Product Information</CardTitle>
-            <CardDescription>
-              Basic information about the product
-            </CardDescription>
+            <CardDescription>Basic information about the product</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <FormField
@@ -76,32 +64,6 @@ export function ProductForm({ onSubmit, isPending, error }: ProductFormProps) {
                   <FormControl>
                     <Input placeholder="Product name" {...field} />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="slug"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Slug *</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="product-slug"
-                      {...field}
-                      onChange={(e) => {
-                        // Auto-generate slug from name if empty
-                        const value = e.target.value;
-                        field.onChange(value);
-                      }}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    URL-safe identifier (lowercase, hyphens only). Cannot be
-                    changed after creation.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -132,11 +94,7 @@ export function ProductForm({ onSubmit, isPending, error }: ProductFormProps) {
                 <FormItem>
                   <FormLabel>Long Description</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Full product description"
-                      {...field}
-                      rows={6}
-                    />
+                    <Textarea placeholder="Full product description" {...field} rows={6} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -160,10 +118,8 @@ export function ProductForm({ onSubmit, isPending, error }: ProductFormProps) {
                   <FormControl>
                     <Input
                       placeholder="electronics, wireless, headphones"
-                      value={field.value?.join(", ") || ""}
-                      onChange={(e) =>
-                        field.onChange(handleTagsChange(e.target.value))
-                      }
+                      value={field.value?.join(', ') || ''}
+                      onChange={(e) => field.onChange(handleTagsChange(e.target.value))}
                     />
                   </FormControl>
                   <FormDescription>
@@ -204,14 +160,10 @@ export function ProductForm({ onSubmit, isPending, error }: ProductFormProps) {
                       type="number"
                       min="0"
                       {...field}
-                      onChange={(e) =>
-                        field.onChange(parseInt(e.target.value, 10) || 0)
-                      }
+                      onChange={(e) => field.onChange(parseInt(e.target.value, 10) || 0)}
                     />
                   </FormControl>
-                  <FormDescription>
-                    Display order (lower numbers appear first)
-                  </FormDescription>
+                  <FormDescription>Display order (lower numbers appear first)</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

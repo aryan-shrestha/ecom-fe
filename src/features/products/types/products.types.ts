@@ -108,7 +108,6 @@ export interface StockMovement {
 // Request types
 export interface CreateProductRequest {
   name: string;
-  slug: string;
   description_short?: string;
   description_long?: string;
   tags?: string[];
