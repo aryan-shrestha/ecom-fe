@@ -25,6 +25,7 @@ import { type LoginFormData, loginSchema } from '@/features/auth/schemas/auth.sc
 import { ROUTES } from '@/lib/routes/paths';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Loader } from 'lucide-react';
 
 export function LoginForm() {
   const loginMutation = useLoginMutation();
@@ -87,7 +88,8 @@ export function LoginForm() {
             )}
 
             <Button type="submit" className="w-full" disabled={loginMutation.isPending}>
-              {loginMutation.isPending ? 'Logging in...' : 'Login'}
+              {loginMutation.isPending && <Loader className="animate-spin" />}
+              Login
             </Button>
           </form>
         </Form>
