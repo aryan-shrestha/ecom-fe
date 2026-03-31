@@ -1,11 +1,12 @@
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
-import * as authApi from "../api/auth.api";
-import { useAuthStore } from "../store/auth.store";
+import * as authApi from '../api/auth.api';
+import { useAuthStore } from '../store/auth.store';
 
-import { authKeys } from "./auth.keys";
-import { ROUTES } from "@/lib/routes/paths";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { authKeys } from './auth.keys';
+import { ROUTES } from '@/lib/routes/paths';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toaster } from '@/lib/toaster';
 
 /**
  * Query hook for fetching current user
@@ -35,7 +36,7 @@ export function useLoginMutation() {
     onSuccess: async (data) => {
       // Store access token
       setAccessToken(data.access_token);
-      setStatus("authenticated");
+      setStatus('authenticated');
 
       // Fetch user data and cache it
       try {
@@ -49,12 +50,13 @@ export function useLoginMutation() {
           queryClient.setQueryData(authKeys.me(), data.user);
         }
       }
-
+      toaster.success('Login successful. Welcome back!');
       // Redirect to dashboard
       router.push(ROUTES.DASHBOARD);
     },
     onError: () => {
-      setStatus("unauthenticated");
+      setStatus('unauthenticated');
+      toaster.error('Login failed. Please check your credentials and try again.');
     },
   });
 }
@@ -68,8 +70,12 @@ export function useRegisterMutation() {
   return useMutation({
     mutationFn: authApi.register,
     onSuccess: () => {
+      toaster.success('Account created successfully. Please sign in.');
       // Redirect to login after successful registration
       router.push(ROUTES.LOGIN);
+    },
+    onError: () => {
+      toaster.error('Registration failed. Please try again.');
     },
   });
 }
@@ -108,7 +114,7 @@ export function useLogoutMutation() {
 
       // Clear all cached queries
       queryClient.clear();
-
+      toaster.info('You have been logged out.');
       // Redirect to login
       router.push(ROUTES.LOGIN);
     },
@@ -116,6 +122,7 @@ export function useLogoutMutation() {
       // Even if logout fails, clear local state and redirect
       clear();
       queryClient.clear();
+      toaster.warning('Logged out locally, server logout failed.');
       router.push(ROUTES.LOGIN);
     },
   });
@@ -132,6 +139,7 @@ export function useLogoutAllMutation() {
   return useMutation({
     mutationFn: authApi.logoutAll,
     onSuccess: () => {
+      toaster.success('Logged out from all sessions.');
       clear();
       queryClient.clear();
       router.push(ROUTES.LOGIN);
@@ -142,8 +150,15 @@ export function useLogoutAllMutation() {
 /**
  * Mutation hook for changing password
  */
+
 export function useChangePasswordMutation() {
   return useMutation({
     mutationFn: authApi.changePassword,
+    onSuccess: () => {
+      toaster.success('Password changed successfully.');
+    },
+    onError: () => {
+      toaster.error('Failed to change password. Please try again.');
+    },
   });
 }

@@ -10,6 +10,7 @@ import { type CreateProductFormData, useCreateProductMutation } from '@/features
 import { ProductForm } from '@/features/products/components/ProductForm';
 import { ROUTES } from '@/lib/routes/paths';
 import { ArrowLeft } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function NewProductPage() {
   const router = useRouter();
@@ -20,6 +21,8 @@ export default function NewProductPage() {
     try {
       setError(null);
       const product = await createProductMutation.mutateAsync(data);
+      toast.success('Product created successfully.');
+
       router.push(`${ROUTES.PRODUCTS}/${product.id}`);
     } catch (err: any) {
       setError(err?.message || err?.detail || 'Failed to create product');
