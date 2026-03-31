@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -10,7 +10,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -18,16 +18,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useRegisterMutation } from "@/features/auth/queries/auth.queries";
-import {
-  type RegisterFormData,
-  registerSchema,
-} from "@/features/auth/schemas/auth.schemas";
-import { ROUTES } from "@/lib/routes/paths";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useRegisterMutation } from '@/features/auth/queries/auth.queries';
+import { type RegisterFormData, registerSchema } from '@/features/auth/schemas/auth.schemas';
+import { ROUTES } from '@/lib/routes/paths';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
 export function RegisterForm() {
   const registerMutation = useRegisterMutation();
@@ -35,8 +32,10 @@ export function RegisterForm() {
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      first_name: '',
+      last_name: '',
+      email: '',
+      password: '',
     },
   });
 
@@ -55,16 +54,38 @@ export function RegisterForm() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
+              name="first_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>First Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="John" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="last_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Last Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Doe" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="you@example.com"
-                      {...field}
-                    />
+                    <Input type="email" placeholder="you@example.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -87,8 +108,7 @@ export function RegisterForm() {
 
             {registerMutation.isError && (
               <div className="text-sm text-destructive">
-                {registerMutation.error?.message ||
-                  "Registration failed. Please try again."}
+                {registerMutation.error?.message || 'Registration failed. Please try again.'}
               </div>
             )}
 
@@ -98,19 +118,15 @@ export function RegisterForm() {
               </div>
             )}
 
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={registerMutation.isPending}
-            >
-              {registerMutation.isPending ? "Creating account..." : "Register"}
+            <Button type="submit" className="w-full" disabled={registerMutation.isPending}>
+              {registerMutation.isPending ? 'Creating account...' : 'Register'}
             </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter className="flex justify-center">
         <p className="text-sm text-muted-foreground">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Link href={ROUTES.LOGIN} className="text-primary hover:underline">
             Login
           </Link>
