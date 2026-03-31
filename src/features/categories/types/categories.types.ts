@@ -1,0 +1,23 @@
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  parent_id: string | null;
+}
+
+export interface CreateCategoryRequest {
+  name: string;
+  parent_id?: string | null;
+}
+
+export interface UpdateCategoryRequest {
+  name?: string;
+  parent_id?: string | null;
+}
+
+export interface CategoryListResponse {
+  categories: Category[];
+  total: number;
+  page: number;
+  page_size: number;
+}

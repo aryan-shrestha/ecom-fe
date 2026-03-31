@@ -1,32 +1,46 @@
 import { toast, type ExternalToast } from 'sonner';
+import { HttpError } from '../http/errors';
 
-//defines error from backend look alike
-type ApiError = {
-  statusCode?: number;
-  statusText?: string;
-  message?: string;
-  response?: {
-    status?: number;
-    statusText?: string;
-    data?: {
-      message?: string;
-    };
-  };
-};
-
-function isToastOptions(obj: any): obj is ExternalToast {
-  // crude but effective check
-  return obj && ('description' in obj || 'action' in obj || 'duration' in obj);
+function isToastOptions(value: unknown): value is ExternalToast {
+  return (
+    !!value &&
+    typeof value === 'object' &&
+    ('description' in value || 'action' in value || 'duration' in value)
+  );
 }
 
-function extractErrorDetails(error: ApiError) {
-  const statusCode = error?.statusCode ?? error?.response?.status;
-  const statusText = error?.statusText ?? error?.response?.statusText;
-  const backendMessage = error?.response?.data?.message ?? error?.message;
+function extractErrorDetails(error: HttpError) {
+  const statusCode = error.status;
+  const backendMessage = error.message?.trim();
+  const fieldErrors = error.fieldErrors;
 
-  const statusLine = [statusCode, statusText].filter(Boolean).join(' - ');
+  const fieldErrorText = fieldErrors
+    ? Object.entries(fieldErrors)
+        .map(([field, messages]) => `${field}: ${messages.join(', ')}`)
+        .join(' | ')
+    : '';
 
-  return statusLine || backendMessage;
+  if (fieldErrorText && backendMessage) {
+    return `${backendMessage} | ${fieldErrorText}`;
+  }
+
+  if (fieldErrorText) {
+    return fieldErrorText;
+  }
+
+  if (backendMessage && statusCode) {
+    return `${statusCode} - ${backendMessage}`;
+  }
+
+  if (backendMessage) {
+    return backendMessage;
+  }
+
+  if (statusCode) {
+    return `Request failed with status ${statusCode}`;
+  }
+
+  return 'Something went wrong';
 }
 
 export const toaster = {
@@ -36,17 +50,13 @@ export const toaster = {
 
   warning: (message: string, options?: ExternalToast) => toast.warning(message, options),
 
-  error: (message: string, second?: ExternalToast | ApiError) => {
-    // If it's already toast options → just pass through
+  error: (message: string, second?: ExternalToast | HttpError) => {
     if (isToastOptions(second)) {
       return toast.error(message, second);
     }
 
-    // Otherwise treat it as an error object
-    const description = second ? extractErrorDetails(second) : undefined;
-
     return toast.error(message, {
-      description: description || 'Something went wrong',
+      description: second ? extractErrorDetails(second) : 'Something went wrong',
     });
   },
 
