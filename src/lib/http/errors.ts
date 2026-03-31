@@ -1,16 +1,12 @@
-import type { ApiError } from "@/types/api";
+import type { ApiError } from '@/types/api';
 
 export class HttpError extends Error implements ApiError {
   status: number;
   fieldErrors?: Record<string, string[]>;
 
-  constructor(
-    status: number,
-    message: string,
-    fieldErrors?: Record<string, string[]>,
-  ) {
-    super(message);
-    this.name = "HttpError";
+  constructor(status: number, message: unknown, fieldErrors?: Record<string, string[]>) {
+    super(typeof message === 'string' ? message : 'Something went wrong');
+    this.name = 'HttpError';
     this.status = status;
     this.fieldErrors = fieldErrors;
   }
@@ -34,6 +30,6 @@ export function normalizeError(error: unknown): ApiError {
 
   return {
     status: 500,
-    message: "An unexpected error occurred",
+    message: 'An unexpected error occurred',
   };
 }

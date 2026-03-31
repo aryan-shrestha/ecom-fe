@@ -6,6 +6,7 @@ export const ROUTES = {
   ACCOUNT: '/account',
   PRODUCTS: '/dashboard/products',
   PRODUCTS_NEW: '/dashboard/products/new',
+  CATEGORIES: '/dashboard/categories',
 } as const;
 
 export const PUBLIC_ROUTES = [ROUTES.LOGIN, ROUTES.REGISTER] as const;

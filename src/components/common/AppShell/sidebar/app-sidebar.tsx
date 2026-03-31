@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import * as React from "react";
+import * as React from 'react';
 
-import { NavMain } from "./nav-main";
-import { NavProjects } from "./nav-projects";
-import { NavUser } from "./nav-user";
-import { TeamSwitcher } from "./team-switcher";
+import { NavMain } from './nav-main';
+import { NavProjects } from './nav-projects';
+import { NavUser } from './nav-user';
+import { TeamSwitcher } from './team-switcher';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
 import {
   AudioWaveform,
   BookOpen,
@@ -20,55 +20,68 @@ import {
   Command,
   Frame,
   GalleryVerticalEnd,
+  LayoutGrid,
   Map,
   Package,
   PieChart,
   Settings2,
   SquareTerminal,
-} from "lucide-react";
+} from 'lucide-react';
 
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: 'shadcn',
+    email: 'm@example.com',
+    avatar: '/avatars/shadcn.jpg',
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: 'Acme Inc',
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      plan: 'Enterprise',
     },
     {
-      name: "Acme Corp.",
+      name: 'Acme Corp.',
       logo: AudioWaveform,
-      plan: "Startup",
+      plan: 'Startup',
     },
     {
-      name: "Evil Corp.",
+      name: 'Evil Corp.',
       logo: Command,
-      plan: "Free",
+      plan: 'Free',
     },
   ],
   navMain: [
     {
-      title: "Products",
-      url: "/dashboard/products",
+      title: 'Products',
+      url: '/dashboard/products',
       icon: Package,
       isActive: true,
       items: [
         {
-          title: "All Products",
-          url: "/dashboard/products",
+          title: 'All Products',
+          url: '/dashboard/products',
         },
         {
-          title: "Create Product",
-          url: "/dashboard/products/new",
+          title: 'Create Product',
+          url: '/dashboard/products/new',
         },
       ],
     },
-  ]
+    {
+      title: 'Categories',
+      url: '/dashboard/categories',
+      icon: LayoutGrid,
+      isActive: true,
+      items: [
+        {
+          title: 'All Categories',
+          url: '/dashboard/categories',
+        },
+      ],
+    },
+  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
