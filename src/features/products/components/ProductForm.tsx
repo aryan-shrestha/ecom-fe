@@ -1,5 +1,6 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -15,7 +16,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { type CreateProductFormData, createProductSchema } from '@/features/products';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
+import { Loader2, X } from 'lucide-react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface ProductFormProps {
@@ -37,13 +39,31 @@ export function ProductForm({ onSubmit, isPending, error }: ProductFormProps) {
     },
   });
 
-  const handleTagsChange = (value: string) => {
-    // Convert comma-separated string to array
-    const tags = value
-      .split(',')
-      .map((tag) => tag.trim())
-      .filter((tag) => tag);
-    return tags;
+  const [tagInput, setTagInput] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+
+  const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+
+      const newTag = tagInput.trim();
+
+      if (newTag && !tags.includes(newTag)) {
+        const updatedTags = [...tags, newTag];
+        setTags(updatedTags);
+
+        // IMPORTANT: sync with form
+        form.setValue('tags', updatedTags);
+      }
+
+      setTagInput('');
+    }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    const updatedTags = tags.filter((tag) => tag !== tagToRemove);
+    setTags(updatedTags);
+    form.setValue('tags', updatedTags);
   };
 
   return (
@@ -118,10 +138,25 @@ export function ProductForm({ onSubmit, isPending, error }: ProductFormProps) {
                   <FormControl>
                     <Input
                       placeholder="electronics, wireless, headphones"
-                      value={field.value?.join(', ') || ''}
-                      onChange={(e) => field.onChange(handleTagsChange(e.target.value))}
+                      value={tagInput}
+                      onChange={(e) => setTagInput(e.target.value)}
+                      onKeyDown={handleTagKeyDown}
                     />
                   </FormControl>
+                  {/* Badge display */}
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    {tags.map((tag, index) => (
+                      <Badge
+                        key={index}
+                        variant="secondary"
+                        onClick={() => removeTag(tag)}
+                        className="cursor-pointer"
+                      >
+                        {tag}
+                        <X className="ml-2 h-4 w-4" />
+                      </Badge>
+                    ))}
+                  </div>
                   <FormDescription>
                     Comma-separated tags for categorization and filtering
                   </FormDescription>
