@@ -1,16 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -18,7 +12,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -27,18 +21,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  type Product,
-  type UpdateProductFormData,
-  updateProductSchema,
-} from "@/features/products";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Edit, Loader2 } from "lucide-react";
-import { useForm } from "react-hook-form";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Textarea } from '@/components/ui/textarea';
+import { type Product, type UpdateProductFormData, updateProductSchema } from '@/features/products';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Edit, Loader2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { Label } from '@components/ui/label';
 
 interface ProductEditFormProps {
   product: Product;
@@ -46,20 +37,44 @@ interface ProductEditFormProps {
   isPending?: boolean;
 }
 
-export function ProductEditForm({
-  product,
-  onUpdate,
-  isPending,
-}: ProductEditFormProps) {
+export function ProductEditForm({ product, onUpdate, isPending }: ProductEditFormProps) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [tagInput, setTagInput] = useState('');
+  const [tags, setTags] = useState<string[]>(product.tags || []);
+
+  const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+
+      const newTag = tagInput.trim();
+
+      if (newTag && !tags.includes(newTag)) {
+        const updatedTags = [...tags, newTag];
+        setTags(updatedTags);
+
+        // IMPORTANT: sync with form
+        form.setValue('tags', updatedTags);
+      }
+
+      setTagInput('');
+    }
+  };
+
+  // const remvoeTag =(tagToRemove: string)=>{
+  //   const updatedTags = tags.filter(tag => !== tagToRemove);
+  //   setTags(updatedTags);
+  //   form.setValue('tags', updatedTags);
+
+  // }
 
   const form = useForm<UpdateProductFormData>({
     resolver: zodResolver(updateProductSchema),
     defaultValues: {
       name: product.name,
-      description_short: product.description_short || "",
-      description_long: product.description_long || "",
+      description_short: product.description_short || '',
+      description_long: product.description_long || '',
       tags: product.tags,
       featured: product.featured,
       sort_order: product.sort_order,
@@ -71,8 +86,8 @@ export function ProductEditForm({
     if (isEditOpen) {
       form.reset({
         name: product.name,
-        description_short: product.description_short || "",
-        description_long: product.description_long || "",
+        description_short: product.description_short || '',
+        description_long: product.description_long || '',
         tags: product.tags,
         featured: product.featured,
         sort_order: product.sort_order,
@@ -81,22 +96,18 @@ export function ProductEditForm({
     }
   }, [isEditOpen, product, form]);
 
+  useEffect(() => {
+    setTags(product.tags || []);
+  }, [product]);
+
   const handleSubmit = async (data: UpdateProductFormData) => {
     try {
       setError(null);
       await onUpdate(data);
       setIsEditOpen(false);
     } catch (err: any) {
-      setError(err?.message || err?.detail || "Failed to update product");
+      setError(err?.message || err?.detail || 'Failed to update product');
     }
-  };
-
-  const handleTagsChange = (value: string) => {
-    const tags = value
-      .split(",")
-      .map((tag) => tag.trim())
-      .filter((tag) => tag);
-    return tags;
   };
 
   return (
@@ -108,11 +119,7 @@ export function ProductEditForm({
               <CardTitle>Product Information</CardTitle>
               <CardDescription>Basic product details</CardDescription>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsEditOpen(true)}
-            >
+            <Button variant="outline" size="sm" onClick={() => setIsEditOpen(true)}>
               <Edit className="mr-2 h-4 w-4" />
               Edit
             </Button>
@@ -127,26 +134,18 @@ export function ProductEditForm({
             <div>
               <h4 className="text-sm font-medium text-gray-700">Slug</h4>
               <p className="mt-1 text-sm">{product.slug}</p>
-              <p className="mt-1 text-xs text-gray-500">
-                Cannot be changed after creation
-              </p>
+              <p className="mt-1 text-xs text-gray-500">Cannot be changed after creation</p>
             </div>
             {product.description_short && (
               <div>
-                <h4 className="text-sm font-medium text-gray-700">
-                  Short Description
-                </h4>
+                <h4 className="text-sm font-medium text-gray-700">Short Description</h4>
                 <p className="mt-1 text-sm">{product.description_short}</p>
               </div>
             )}
             {product.description_long && (
               <div>
-                <h4 className="text-sm font-medium text-gray-700">
-                  Long Description
-                </h4>
-                <p className="mt-1 whitespace-pre-wrap text-sm">
-                  {product.description_long}
-                </p>
+                <h4 className="text-sm font-medium text-gray-700">Long Description</h4>
+                <p className="mt-1 whitespace-pre-wrap text-sm">{product.description_long}</p>
               </div>
             )}
             {product.tags.length > 0 && (
@@ -163,17 +162,15 @@ export function ProductEditForm({
             )}
             <div className="grid grid-cols-3 gap-4 text-sm">
               <div>
-                <span className="text-gray-600">Featured:</span>{" "}
-                <span className="font-medium">
-                  {product.featured ? "Yes" : "No"}
-                </span>
+                <span className="text-gray-600">Featured:</span>{' '}
+                <span className="font-medium">{product.featured ? 'Yes' : 'No'}</span>
               </div>
               <div>
-                <span className="text-gray-600">Sort Order:</span>{" "}
+                <span className="text-gray-600">Sort Order:</span>{' '}
                 <span className="font-medium">{product.sort_order}</span>
               </div>
               <div>
-                <span className="text-gray-600">Created:</span>{" "}
+                <span className="text-gray-600">Created:</span>{' '}
                 <span className="font-medium">
                   {new Date(product.created_at).toLocaleDateString()}
                 </span>
@@ -187,9 +184,7 @@ export function ProductEditForm({
         <DialogContent className="max-w-2xl overflow-hidden">
           <DialogHeader>
             <DialogTitle>Edit Product</DialogTitle>
-            <DialogDescription>
-              Update product details (slug cannot be changed)
-            </DialogDescription>
+            <DialogDescription>Update product details (slug cannot be changed)</DialogDescription>
           </DialogHeader>
 
           <Form {...form}>
@@ -212,14 +207,8 @@ export function ProductEditForm({
 
                   <div>
                     <FormLabel>Slug</FormLabel>
-                    <Input
-                      value={product.slug}
-                      disabled
-                      className="bg-gray-100"
-                    />
-                    <p className="mt-1 text-xs text-gray-500">
-                      Cannot be changed after creation
-                    </p>
+                    <Input value={product.slug} disabled className="bg-gray-100" />
+                    <p className="mt-1 text-xs text-gray-500">Cannot be changed after creation</p>
                   </div>
 
                   <FormField
@@ -247,11 +236,7 @@ export function ProductEditForm({
                       <FormItem>
                         <FormLabel>Long Description</FormLabel>
                         <FormControl>
-                          <Textarea
-                            placeholder="Full product description"
-                            {...field}
-                            rows={6}
-                          />
+                          <Textarea placeholder="Full product description" {...field} rows={6} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -261,26 +246,40 @@ export function ProductEditForm({
                   <FormField
                     control={form.control}
                     name="tags"
-                    render={({ field }) => (
+                    render={() => (
                       <FormItem>
                         <FormLabel>Tags</FormLabel>
+
+                        {/* Input */}
                         <FormControl>
                           <Input
-                            placeholder="electronics, wireless, headphones"
-                            value={field.value?.join(", ") || ""}
-                            onChange={(e) =>
-                              field.onChange(handleTagsChange(e.target.value))
-                            }
+                            placeholder="Type tag and press Enter or ,"
+                            value={tagInput}
+                            onChange={(e) => setTagInput(e.target.value)}
+                            onKeyDown={handleTagKeyDown}
                           />
                         </FormControl>
-                        <FormDescription>
-                          Comma-separated tags for categorization and filtering
-                        </FormDescription>
+
+                        {/* Badge display */}
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {tags.map((tag, index) => (
+                            <Badge key={index} variant="secondary" className="cursor-pointer">
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+
+                        <FormDescription>Press Enter or comma to add tags</FormDescription>
+
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-
+                  <Input
+                    placeholder="electronics, wireless, headphones"
+                    // onChange={(e) => field.onChange(handleTagsChange(e.target.value))}
+                    onKeyDown={handleTagKeyDown}
+                  />
                   <FormField
                     control={form.control}
                     name="featured"
@@ -294,9 +293,7 @@ export function ProductEditForm({
                             className="h-4 w-4"
                           />
                         </FormControl>
-                        <FormLabel className="!mt-0">
-                          Featured Product
-                        </FormLabel>
+                        <FormLabel className="!mt-0">Featured Product</FormLabel>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -313,9 +310,7 @@ export function ProductEditForm({
                             type="number"
                             min="0"
                             {...field}
-                            onChange={(e) =>
-                              field.onChange(parseInt(e.target.value, 10) || 0)
-                            }
+                            onChange={(e) => field.onChange(parseInt(e.target.value, 10) || 0)}
                           />
                         </FormControl>
                         <FormDescription>
@@ -330,17 +325,11 @@ export function ProductEditForm({
               {error && <p className="text-sm text-red-600">{error}</p>}
 
               <DialogFooter className="pt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsEditOpen(false)}
-                >
+                <Button type="button" variant="outline" onClick={() => setIsEditOpen(false)}>
                   Cancel
                 </Button>
                 <Button type="submit" disabled={isPending}>
-                  {isPending && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  )}
+                  {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Save Changes
                 </Button>
               </DialogFooter>

@@ -16,7 +16,6 @@ import type {
 import { productsKeys } from './products.keys';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-
 // Query hooks
 export function useProductsListQuery(filters?: ProductListFilters) {
   return useQuery({
