@@ -12,7 +12,14 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { AudioWaveform, Command, GalleryVerticalEnd, LayoutGrid, Package } from 'lucide-react';
+import {
+  AudioWaveform,
+  Command,
+  GalleryVerticalEnd,
+  LayoutGrid,
+  Package,
+  Users,
+} from 'lucide-react';
 
 // This is sample data.
 const data = {
@@ -55,24 +62,12 @@ const data = {
       url: '/dashboard/categories',
       icon: LayoutGrid,
       isActive: true,
-      items: [
-        {
-          title: 'All Categories',
-          url: '/dashboard/categories',
-        },
-      ],
     },
     {
       title: 'Users',
       url: '/dashboard/users',
-      icon: LayoutGrid,
+      icon: Users,
       isActive: true,
-      items: [
-        {
-          title: 'All Users',
-          url: '/dashboard/users',
-        },
-      ],
     },
   ],
 };

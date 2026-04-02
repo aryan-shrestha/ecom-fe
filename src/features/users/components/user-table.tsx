@@ -1,9 +1,8 @@
 'use client';
 import React from 'react';
 import { useUsersListQuery } from '../queries/users.queries';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { EllipsisVertical, Menu, Plus, Scroll } from 'lucide-react';
+import { CircleCheckBig, CircleX, EllipsisVertical } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -12,7 +11,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Skeleton } from '@/components/ui/skeleton';
 import UserTableSkeleton from './user-table-skeleton';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -61,10 +59,10 @@ const UserTable = () => {
                 <TableCell className="border-b px-4 py-4">{user.first_name}</TableCell>
                 <TableCell className="border-b px-4 py-4">{user.last_name}</TableCell>
                 <TableCell className="border-b px-4 py-4">
-                  {user.is_active ? <Badge>Yes</Badge> : <Badge variant="secondary">No</Badge>}
+                  {user.is_active ? <CircleCheckBig /> : <CircleX />}
                 </TableCell>
                 <TableCell className="border-b px-4 py-4">
-                  {user.is_verified ? <Badge>Yes</Badge> : <Badge variant="secondary">No</Badge>}
+                  {user.is_verified ? <CircleCheckBig /> : <CircleX />}
                 </TableCell>
                 <TableCell className="border-b px-4 py-4">
                   <DropdownMenu>
