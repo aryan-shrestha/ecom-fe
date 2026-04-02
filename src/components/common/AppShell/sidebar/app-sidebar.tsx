@@ -3,7 +3,6 @@
 import * as React from 'react';
 
 import { NavMain } from './nav-main';
-import { NavProjects } from './nav-projects';
 import { NavUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
 import {
@@ -15,17 +14,11 @@ import {
 } from '@/components/ui/sidebar';
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
   Command,
-  Frame,
   GalleryVerticalEnd,
   LayoutGrid,
-  Map,
   Package,
-  PieChart,
-  Settings2,
-  SquareTerminal,
+  Users,
 } from 'lucide-react';
 
 // This is sample data.
@@ -69,12 +62,12 @@ const data = {
       url: '/dashboard/categories',
       icon: LayoutGrid,
       isActive: true,
-      items: [
-        {
-          title: 'All Categories',
-          url: '/dashboard/categories',
-        },
-      ],
+    },
+    {
+      title: 'Users',
+      url: '/dashboard/users',
+      icon: Users,
+      isActive: true,
     },
   ],
 };

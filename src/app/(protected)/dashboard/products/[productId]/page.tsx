@@ -36,7 +36,6 @@ import { VariantManagement } from '@/features/products/components/VariantManagem
 import { ROUTES } from '@/lib/routes/paths';
 import { Archive, ArrowLeft, CheckCircle, Loader2 } from 'lucide-react';
 
-
 export default function ProductDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -248,13 +247,13 @@ export default function ProductDetailPage() {
       />
 
       {/* Images */}
-      <ImageManagement
+      {/* <ImageManagement
         productId={productId}
         images={images}
         onAddImage={handleAddImage}
         onUploadImage={handleUploadImage}
         onRemoveImage={handleRemoveImage}
-      />
+      /> */}
 
       {/* Categories */}
       <CategoryManagement
