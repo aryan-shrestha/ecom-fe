@@ -3,7 +3,6 @@
 import * as React from 'react';
 
 import { NavMain } from './nav-main';
-import { NavProjects } from './nav-projects';
 import { NavUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
 import {
@@ -13,20 +12,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  LayoutGrid,
-  Map,
-  Package,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from 'lucide-react';
+import { AudioWaveform, Command, GalleryVerticalEnd, LayoutGrid, Package } from 'lucide-react';
 
 // This is sample data.
 const data = {
@@ -73,6 +59,18 @@ const data = {
         {
           title: 'All Categories',
           url: '/dashboard/categories',
+        },
+      ],
+    },
+    {
+      title: 'Users',
+      url: '/dashboard/users',
+      icon: LayoutGrid,
+      isActive: true,
+      items: [
+        {
+          title: 'All Users',
+          url: '/dashboard/users',
         },
       ],
     },
