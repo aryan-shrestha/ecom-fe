@@ -18,6 +18,7 @@ import {
   GalleryVerticalEnd,
   LayoutGrid,
   Package,
+  ShieldUser,
   Users,
 } from 'lucide-react';
 
@@ -68,6 +69,22 @@ const data = {
       url: '/dashboard/users',
       icon: Users,
       isActive: true,
+    },
+    {
+      title: 'RBAC',
+      url: '/dashboard/rbac',
+      icon: ShieldUser,
+      isActive: true,
+      items: [
+        {
+          title: 'Roles',
+          url: '/dashboard/roles',
+        },
+        {
+          title: 'Permissions',
+          url: '/dashboard/permissions',
+        },
+      ],
     },
   ],
 };

@@ -1,4 +1,4 @@
-import { Role } from '@/features/roles/types/role';
+import { Role } from '@/features/roles/types/role.types';
 
 export interface User {
   id: string;
