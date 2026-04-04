@@ -15,3 +15,11 @@ export interface CreateRoleRequest {
 }
 
 export interface UpdateRoleRequest extends CreateRoleRequest {}
+
+export interface AsignPermissionToRoleRequest {
+  permission_code: string;
+}
+
+export interface RemovePermissionFromRoleRequest {
+  permission_code: string;
+}

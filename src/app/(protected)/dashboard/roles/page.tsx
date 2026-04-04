@@ -3,14 +3,16 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import RoleCreateDialog from '@/features/roles/components/roles-create-dialog';
 import RolesDeleteDialog from '@/features/roles/components/roles-delete-dialog';
+import RolesPermissionsDialog from '@/features/roles/components/roles-permissions-dialog';
 import RoleTable from '@/features/roles/components/roles-table';
 import { Plus } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 
 const page = () => {
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
-  const [selectedRoleName, setSelectedRoleName] = React.useState<string>('');
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isPermissionsDialogOpen, setIsPermissionsDialogOpen] = useState(false);
+  const [selectedRoleName, setSelectedRoleName] = useState<string>('');
 
   const toggleCreateDialog = () => {
     setIsCreateDialogOpen((prev) => !prev);
@@ -22,7 +24,10 @@ const page = () => {
 
   const handleSetSelectedRoleName = (name: string) => {
     setSelectedRoleName(name);
-    toggleDeleteDialog();
+  };
+
+  const togglePermissionsDialog = () => {
+    setIsPermissionsDialogOpen((prev) => !prev);
   };
 
   return (
@@ -42,6 +47,8 @@ const page = () => {
         <CardContent>
           <RoleTable
             toggleCreateDialog={toggleCreateDialog}
+            toggleDeleteDialog={toggleDeleteDialog}
+            togglePermissionsDialog={togglePermissionsDialog}
             setSelectedRoleName={handleSetSelectedRoleName}
           />
         </CardContent>
@@ -51,6 +58,11 @@ const page = () => {
         isOpen={isDeleteDialogOpen}
         toggleDialog={toggleDeleteDialog}
         roleName={selectedRoleName}
+      />
+      <RolesPermissionsDialog
+        isOpen={isPermissionsDialogOpen}
+        toggleDialog={togglePermissionsDialog}
+        selectedRoleName={selectedRoleName}
       />
     </>
   );
