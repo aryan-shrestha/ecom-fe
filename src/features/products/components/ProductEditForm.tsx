@@ -62,13 +62,6 @@ export function ProductEditForm({ product, onUpdate, isPending }: ProductEditFor
     }
   };
 
-  // const remvoeTag =(tagToRemove: string)=>{
-  //   const updatedTags = tags.filter(tag => !== tagToRemove);
-  //   setTags(updatedTags);
-  //   form.setValue('tags', updatedTags);
-
-  // }
-
   const form = useForm<UpdateProductFormData>({
     resolver: zodResolver(updateProductSchema),
     defaultValues: {
@@ -275,11 +268,7 @@ export function ProductEditForm({ product, onUpdate, isPending }: ProductEditFor
                       </FormItem>
                     )}
                   />
-                  <Input
-                    placeholder="electronics, wireless, headphones"
-                    // onChange={(e) => field.onChange(handleTagsChange(e.target.value))}
-                    onKeyDown={handleTagKeyDown}
-                  />
+
                   <FormField
                     control={form.control}
                     name="featured"
