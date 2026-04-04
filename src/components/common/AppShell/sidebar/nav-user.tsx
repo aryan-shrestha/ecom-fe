@@ -38,8 +38,8 @@ export function NavUser() {
                   alt={`${user?.first_name} ${user?.last_name}`}
                 />
                 <AvatarFallback className="rounded-lg">
-                  {user?.first_name?.charAt(0)}
-                  {user?.last_name?.charAt(0)}
+                  {user?.first_name?.charAt(0).toUpperCase()}
+                  {user?.last_name?.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -65,8 +65,8 @@ export function NavUser() {
                     alt={`${user?.first_name} ${user?.last_name}`}
                   />
                   <AvatarFallback className="rounded-lg">
-                    {user?.first_name?.charAt(0)}
-                    {user?.last_name?.charAt(0)}
+                    {user?.first_name?.charAt(0).toUpperCase()}
+                    {user?.last_name?.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">

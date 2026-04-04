@@ -10,34 +10,34 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { useDeleteRoleMutation } from '../queries/roles.queries';
 import { toaster } from '@/lib/toaster';
 import { HttpError } from '@/lib/http/errors';
+import { useDeletePermissionMutation } from '../queries/permissions.queries';
 
-interface RolesDeleteDialogProps {
-  roleName: string;
+interface PermissionsDeleteDialogProps {
+  permissionCode: string;
   isOpen: boolean;
   toggleDialog: () => void;
 }
 
-export default function RolesDeleteDialog({
-  roleName,
+export default function PermissionsDeleteDialog({
+  permissionCode,
   isOpen,
   toggleDialog,
-}: RolesDeleteDialogProps) {
-  const deleteRoleMutation = useDeleteRoleMutation(roleName);
+}: PermissionsDeleteDialogProps) {
+  const deleteRoleMutation = useDeletePermissionMutation(permissionCode);
 
   const onDelete = async () => {
     try {
       await deleteRoleMutation.mutateAsync();
-      toaster.success('Role deleted successfully');
+      toaster.success('Permission deleted successfully');
       toggleDialog();
     } catch (error) {
       if (error instanceof HttpError) {
-        toaster.error('Failed to delete role', error);
+        toaster.error('Failed to delete permission', error);
         return;
       }
-      toaster.error('Failed to delete role');
+      toaster.error('Failed to delete permission');
     }
   };
 
@@ -45,9 +45,9 @@ export default function RolesDeleteDialog({
     <AlertDialog open={isOpen} onOpenChange={toggleDialog}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Role?</AlertDialogTitle>
+          <AlertDialogTitle>Delete Permission?</AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete this role. Are you sure you want to continue?
+            This will permanently delete this permission. Are you sure you want to continue?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
