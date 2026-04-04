@@ -1,3 +1,4 @@
+'use client';
 import { ArrowUpRightIcon, Plus, ShieldUser } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';

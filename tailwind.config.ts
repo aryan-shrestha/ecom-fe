@@ -1,5 +1,12 @@
 import type { Config } from 'tailwindcss';
 
+const generatedSpacing = Object.fromEntries(
+  Array.from({ length: 101 }, (_, i) => {
+    const key = i + 100; // 100..200
+    return [key, `${key * 0.25}rem`];
+  }),
+);
+
 const config: Config = {
   darkMode: ['class'],
   content: [
@@ -95,6 +102,9 @@ const config: Config = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+      },
+      spacing: {
+        ...generatedSpacing,
       },
     },
   },

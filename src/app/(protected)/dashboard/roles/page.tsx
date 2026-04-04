@@ -25,8 +25,6 @@ const page = () => {
     toggleDeleteDialog();
   };
 
-  console.log('Selected Role Name for Deletion:', selectedRoleName);
-
   return (
     <>
       <Card>
