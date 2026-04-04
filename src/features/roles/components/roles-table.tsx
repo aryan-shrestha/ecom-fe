@@ -11,16 +11,29 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Pen, Trash2 } from 'lucide-react';
+import { EllipsisVertical, Pen, Trash2, UserKey } from 'lucide-react';
 import RolesTableSkeleton from './roles-table-skeleton';
 import { RoleEmpty } from './roles-empty';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface RoleTableProps {
   toggleCreateDialog: () => void;
+  toggleDeleteDialog: () => void;
+  togglePermissionsDialog: () => void;
   setSelectedRoleName: (name: string) => void;
 }
 
-const RoleTable = ({ toggleCreateDialog, setSelectedRoleName }: RoleTableProps) => {
+const RoleTable = ({
+  toggleCreateDialog,
+  toggleDeleteDialog,
+  togglePermissionsDialog,
+  setSelectedRoleName,
+}: RoleTableProps) => {
   const { data, isPending, error } = useRolesListQuery();
 
   if (isPending) {
@@ -43,7 +56,6 @@ const RoleTable = ({ toggleCreateDialog, setSelectedRoleName }: RoleTableProps) 
             <TableRow>
               <TableHead className="border-b px-4 py-4">ID</TableHead>
               <TableHead className="border-b px-4 py-4">Name</TableHead>
-              <TableHead className="border-b px-4 py-4">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -52,18 +64,33 @@ const RoleTable = ({ toggleCreateDialog, setSelectedRoleName }: RoleTableProps) 
                 <TableCell className="border-b px-4 py-4">{role.id}</TableCell>
                 <TableCell className="border-b px-4 py-4">{role.name}</TableCell>
                 <TableCell className="space-x-2 border-b px-4 py-4">
-                  <Button variant="outline" size="icon">
-                    <Pen className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    onClick={() => {
-                      setSelectedRoleName(role.name);
-                    }}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <Button variant="ghost" size="sm">
+                        <EllipsisVertical className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setSelectedRoleName(role.name);
+                          toggleDeleteDialog();
+                        }}
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        Delete
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setSelectedRoleName(role.name);
+                          togglePermissionsDialog();
+                        }}
+                      >
+                        <UserKey className="mr-2 h-4 w-4" />
+                        Manage Permissions
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               </TableRow>
             ))}
