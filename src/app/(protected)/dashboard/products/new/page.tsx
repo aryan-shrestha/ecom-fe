@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/lib/routes/paths';
 import { ArrowLeft } from 'lucide-react';
-import { MultiStepProductForm } from '@/features/products/components/MultiStepProductForm';
+// import { MultiStepProductForm } from '@/features/products/components/MultiStepProductForm';
+import { MultiStepProductForm } from '@/features/products/Multi-Step-Form';
 
 export default function NewProductPage() {
   return (

@@ -106,10 +106,12 @@ export interface StockMovement {
 }
 
 // Request types
+//shape of the data we send to backend api
 export interface CreateProductRequest {
   name: string;
   description_short?: string;
   description_long?: string;
+  category_id?: string;
   tags?: string[];
   featured?: boolean;
   sort_order?: number;

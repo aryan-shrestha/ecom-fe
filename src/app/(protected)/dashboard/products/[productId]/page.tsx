@@ -35,6 +35,7 @@ import { InventoryDisplay, StockManagement } from '@/features/products/component
 import { VariantManagement } from '@/features/products/components/VariantManagement';
 import { ROUTES } from '@/lib/routes/paths';
 import { Archive, ArrowLeft, CheckCircle, Loader2 } from 'lucide-react';
+import { EditImage } from '@/features/products/components/EditImage';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -213,12 +214,21 @@ export default function ProductDetailPage() {
         </div>
       </div>
 
-      {/* Product Information */}
-      <ProductEditForm
-        product={product}
-        onUpdate={handleUpdateProduct}
-        isPending={updateProductMutation.isPending}
-      />
+      {/* Product Information + Images side by side */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <ProductEditForm
+          product={product}
+          onUpdate={handleUpdateProduct}
+          isPending={updateProductMutation.isPending}
+        />
+
+        <EditImage
+          productId={productId}
+          images={images ?? []}
+          onUploadImage={handleUploadImage}
+          onRemoveImage={handleRemoveImage}
+        />
+      </div>
 
       {/* Variants */}
       <VariantManagement
@@ -245,15 +255,6 @@ export default function ProductDetailPage() {
         onAdjustStock={handleAdjustStock}
         onClose={() => setSelectedVariantForStock(null)}
       />
-
-      {/* Images */}
-      {/* <ImageManagement
-        productId={productId}
-        images={images}
-        onAddImage={handleAddImage}
-        onUploadImage={handleUploadImage}
-        onRemoveImage={handleRemoveImage}
-      /> */}
 
       {/* Categories */}
       <CategoryManagement

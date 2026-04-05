@@ -3,7 +3,12 @@
 import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
 
-const STEPS = [{ label: 'Product Info' }, { label: 'Variants' }, { label: 'Review & Publish' }];
+const STEPS = [
+  { label: 'Product Info' },
+  { label: 'Images' },
+  { label: 'Variants' },
+  { label: 'Review & Publish' },
+];
 
 interface StepIndicatorProps {
   currentStep: number; // 1-indexed
@@ -20,7 +25,6 @@ export function StepIndicator({ currentStep }: StepIndicatorProps) {
 
           return (
             <div key={step.label} className="flex items-center gap-3">
-              {/* Circle + label */}
               <div className="flex items-center gap-2">
                 <div
                   className={cn(
@@ -41,8 +45,6 @@ export function StepIndicator({ currentStep }: StepIndicatorProps) {
                   {step.label}
                 </span>
               </div>
-
-              {/* Connector — not after last step */}
               {index < STEPS.length - 1 && (
                 <div
                   className={cn(

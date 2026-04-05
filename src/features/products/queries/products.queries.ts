@@ -30,7 +30,8 @@ export function useProductDetailQuery(productId: string) {
     queryKey: productsKeys.detail(productId),
     queryFn: () => productsApi.getProductDetail(productId),
     enabled: !!productId,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    // staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 0,
   });
 }
 
