@@ -7,8 +7,8 @@ import { ProductSettingsStep } from '@features/products/Multi-Step-Form/componen
 import { ImageUploadStep } from '@features/products/Multi-Step-Form/components/steps/ImageUploadStep';
 import { VariantStep } from '@features/products/Multi-Step-Form/components/steps/VariantStep';
 import { ReviewStep } from '@features/products/Multi-Step-Form/components/steps/ReviewStep';
-import { useCreateProduct } from '@features/products/Multi-Step-Form/hooks/useCreateProduct';
 import type { CreateProductRequest } from '@/features/products/types/products.types';
+import { useCreateProductMutation } from '../../queries/products.queries';
 
 export function MultiStepProductForm() {
   const {
@@ -25,7 +25,7 @@ export function MultiStepProductForm() {
     removeVariant,
   } = useMultiStepStore();
 
-  const { mutate: createProduct, isPending, error: createError } = useCreateProduct();
+  const { mutate: createProduct, isPending, error: createError } = useCreateProductMutation();
 
   const handleInfoNext = (infoData: Partial<CreateProductRequest>) => {
     setProductData({ ...(productData ?? {}), ...infoData } as CreateProductRequest);

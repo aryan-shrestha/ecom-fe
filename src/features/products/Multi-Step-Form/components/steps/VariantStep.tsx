@@ -23,8 +23,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useCreateVariant } from '../../hooks/useCreateVariant';
-import { useUploadVariantImage } from '../../hooks/useUploadVariantImage';
 import { useMultiStepStore } from '../../store/useMultiStepStore';
 import { formatPrice } from '../../utils/formatters';
 import type { Variant, CreateVariantRequest } from '@/features/products/types/products.types';
@@ -33,6 +31,10 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import {
+  useCreateVariantMutation,
+  useUploadVariantImageMutation,
+} from '@/features/products/queries/products.queries';
 
 const variantSchema = z.object({
   sku: z.string().min(1, 'SKU is required'),
@@ -68,8 +70,13 @@ export function VariantStep({
   onBack,
   onNext,
 }: VariantStepProps) {
-  const { mutate: createVariant, isPending, error, reset: resetMutation } = useCreateVariant();
-  const { mutateAsync: uploadVariantImg } = useUploadVariantImage();
+  const {
+    mutate: createVariant,
+    isPending,
+    error,
+    reset: resetMutation,
+  } = useCreateVariantMutation();
+  const { mutateAsync: uploadVariantImg } = useUploadVariantImageMutation();
 
   const { variantImages, setVariantImage, setVariantImageStatus, removeVariantImage } =
     useMultiStepStore();
