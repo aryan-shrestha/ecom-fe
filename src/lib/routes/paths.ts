@@ -6,6 +6,7 @@ export const ROUTES = {
   ACCOUNT: '/account',
   PRODUCTS: '/dashboard/products',
   PRODUCTS_NEW: '/dashboard/products/new',
+  PRODUCT_DETAIL: (id: string) => `/dashboard/products/${id}`,
   CATEGORIES: '/dashboard/categories',
 } as const;
 
