@@ -4,10 +4,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { usePublishProduct } from '../hooks/usePublishProduct';
 // import directly from types  not from the hook
 import type { Variant } from '@/features/products/types/products.types';
-import type { CreateProductFormData } from '@/features/products';
+import { usePublishProductMutation, type CreateProductFormData } from '@/features/products';
 import { CheckCircle2, Loader2, Rocket } from 'lucide-react';
 
 interface ReviewStepProps {
@@ -34,7 +33,7 @@ export function ReviewStep({
   onBack,
   onPublished,
 }: ReviewStepProps) {
-  const { mutate: publishProduct, isPending, error, isSuccess } = usePublishProduct();
+  const { mutate: publishProduct, isPending, error, isSuccess } = usePublishProductMutation();
 
   const handlePublish = () => {
     publishProduct(productId, {

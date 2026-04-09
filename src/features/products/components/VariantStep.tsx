@@ -14,13 +14,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useCreateVariant } from '../hooks/useCreateVariant';
 import type { Variant, CreateVariantRequest } from '@/features/products/types/products.types';
 import { CheckCircle2, Loader2, PackagePlus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useCreateVariantMutation } from '../queries/products.queries';
 
 const CURRENCY = 'NPR';
 
@@ -65,7 +65,12 @@ export function VariantStep({
   onBack,
   onNext,
 }: VariantStepProps) {
-  const { mutate: createVariant, isPending, error, reset: resetMutation } = useCreateVariant();
+  const {
+    mutate: createVariant,
+    isPending,
+    error,
+    reset: resetMutation,
+  } = useCreateVariantMutation();
   const [lastAdded, setLastAdded] = useState<string | null>(null);
 
   const {

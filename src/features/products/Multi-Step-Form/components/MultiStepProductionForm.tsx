@@ -3,14 +3,10 @@
 import { useMultiStepStore } from '@/features/products/multi-step-form/store/useMultiStepStore';
 import { StepIndicator } from '@/features/products/multi-step-form/components/StepIndicator';
 import { ProductInfoStep } from '@/features/products/multi-step-form/components/steps/ProductInfoStep';
-import { ProductSettingsStep } from '@/features/products/multi-step-form/components/steps/ProductSettingsStep';
 import { ImageUploadStep } from '@/features/products/multi-step-form/components/steps/ImageUploadStep';
 import { VariantStep } from '@/features/products/multi-step-form/components/steps/VariantStep';
 import { ReviewStep } from '@/features/products/multi-step-form/components/steps/ReviewStep';
-import type { CreateProductRequest } from '@/features/products/types/products.types';
-import { useCreateProductMutation } from '../../queries/products.queries';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { useEffect } from 'react';
 
 export function MultiStepProductForm() {

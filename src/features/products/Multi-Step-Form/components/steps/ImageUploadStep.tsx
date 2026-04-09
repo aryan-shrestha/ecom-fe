@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   useUploadProductImageMutation as useUploadProductImage,
   useRemoveProductImageMutation as useRemoveProductImage,
@@ -21,7 +20,6 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
-import { set } from 'zod';
 import { HttpError } from '@/lib/http/errors';
 import { toaster } from '@/lib/toaster';
 

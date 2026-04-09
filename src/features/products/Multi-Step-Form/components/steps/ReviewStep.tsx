@@ -4,7 +4,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { useMultiStepStore } from '../../store/useMultiStepStore';
 import { formatPrice } from '../../utils/formatters';
 import type { Variant, CreateProductRequest } from '@/features/products/types/products.types';
 import { CheckCircle2, Loader2, Rocket, ImageIcon } from 'lucide-react';
@@ -15,6 +14,7 @@ import { ROUTES } from '@/lib/routes/paths';
 import { useCategoriesListQuery } from '@/features/categories/queries/categories.queries';
 import Image from 'next/image';
 import { usePublishProductMutation } from '@/features/products/queries/products.queries';
+import { useMultiStepStore } from '../../store/useMultiStepStore';
 
 interface ReviewStepProps {
   productId: string;
@@ -37,7 +37,7 @@ export function ReviewStep({ productId, productData, variants, onBack }: ReviewS
   const { mutate: publishProduct, isPending, error, isSuccess } = usePublishProductMutation();
 
   // Get only successfully uploaded images
-  const uploadedImages = Object.values(images).filter((img) => img.status === 'done');
+  const uploadedImages = Object.values(images).filter((img) => img.id);
 
   const handlePublish = () => {
     publishProduct(productId, {
@@ -164,19 +164,19 @@ export function ReviewStep({ productId, productData, variants, onBack }: ReviewS
           <CardContent>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {uploadedImages.map((img) => (
-                <div key={img.localId} className="group">
+                <div key={img.id} className="group">
                   <div className="relative aspect-square overflow-hidden rounded-lg border border-input bg-muted">
                     <Image
-                      src={img.preview}
-                      alt={img.altText || 'Product image'}
+                      src={img.url}
+                      alt={img.alt_text || 'Product image'}
                       fill
                       className="object-cover transition-transform group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
-                  {img.altText && (
+                  {img.alt_text && (
                     <p className="mt-3 truncate text-sm font-medium text-foreground">
-                      {img.altText}
+                      {img.alt_text}
                     </p>
                   )}
                 </div>
