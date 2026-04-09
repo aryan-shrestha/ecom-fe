@@ -6,7 +6,7 @@ import {
   useRemoveProductImageMutation as useRemoveProductImage,
 } from '@/features/products/queries/products.queries';
 import { useMultiStepStore } from '@/features/products/multi-step-form/store/useMultiStepStore';
-import { ArrowRight, ImagePlus, Loader, Loader2, Trash2, X } from 'lucide-react';
+import { ArrowRight, ImagePlus, Loader, Trash2 } from 'lucide-react';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import {

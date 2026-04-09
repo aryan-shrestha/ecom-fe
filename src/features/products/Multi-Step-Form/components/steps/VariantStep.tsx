@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,8 +22,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useMultiStepStore } from '../../store/useMultiStepStore';
-import { formatPrice } from '../../utils/formatters';
 import type { Variant, CreateVariantRequest } from '@/features/products/types/products.types';
 import { CheckCircle2, ImagePlus, Loader2, PackagePlus, Trash2, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
@@ -35,6 +32,8 @@ import {
   useCreateVariantMutation,
   useUploadVariantImageMutation,
 } from '@/features/products/queries/products.queries';
+import { useMultiStepStore } from '../../store/useMultiStepStore';
+import { formatPrice } from '../../utils/formatters';
 
 const variantSchema = z.object({
   sku: z.string().min(1, 'SKU is required'),

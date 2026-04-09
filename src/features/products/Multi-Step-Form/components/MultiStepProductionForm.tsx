@@ -18,7 +18,6 @@ export function MultiStepProductForm() {
     setStep,
     setSubStep,
     setProductId,
-    setProductData,
     addVariant,
     removeVariant,
   } = useMultiStepStore();
