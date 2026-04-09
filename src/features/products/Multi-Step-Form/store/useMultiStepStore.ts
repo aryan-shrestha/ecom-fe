@@ -30,8 +30,8 @@ interface MultiStepState {
   productData: CreateProductRequest | null;
   variants: Variant[];
 
-  /** Keyed by a stable local id so insertion order is preserved */
-  images: Record<string, UploadedImage & { file: File; localId: string }>;
+  /** Stored as an ordered array */
+  images: ProductImage[];
 
   /** Keyed by the server-assigned variant id returned from the API */
   variantImages: Record<string, VariantImage>;
@@ -45,18 +45,8 @@ interface MultiStepState {
   removeVariant: (id: string) => void;
 
   // Product image actions
-  /** Add a new pending image to the store */
-  addImage: (localId: string, file: File, preview: string, altText: string) => void;
-  /** Update alt text before upload */
-  setImageAltText: (localId: string, altText: string) => void;
-  /** Update status + optional uploaded result */
-  setImageStatus: (
-    localId: string,
-    status: UploadedImage['status'],
-    uploaded?: ProductImage,
-    error?: string,
-  ) => void;
-  removeImage: (localId: string) => void;
+  addImage: (image: ProductImage) => void;
+  removeImage: (imageId: string) => void;
 
   // Variant image actions
   setVariantImage: (variantId: string, file: File, preview: string) => void;
@@ -66,13 +56,16 @@ interface MultiStepState {
   reset: () => void;
 }
 
-const initialState = {
-  currentStep: 1 as TopStep,
-  subStep: 'info' as SubStep,
+const initialState: Pick<
+  MultiStepState,
+  'currentStep' | 'subStep' | 'productId' | 'productData' | 'variants' | 'images' | 'variantImages'
+> = {
+  currentStep: 1,
+  subStep: 'info',
   productId: null,
   productData: null,
   variants: [],
-  images: {},
+  images: [],
   variantImages: {},
 };
 
@@ -87,32 +80,15 @@ export const useMultiStepStore = create<MultiStepState>((set) => ({
   addVariant: (variant) => set((s) => ({ variants: [...s.variants, variant] })),
   removeVariant: (id) => set((s) => ({ variants: s.variants.filter((v) => v.id !== id) })),
 
-  addImage: (localId, file, preview, altText) =>
+  addImage: (image) =>
     set((s) => ({
-      images: {
-        ...s.images,
-        [localId]: { localId, file, preview, altText, status: 'pending' },
-      },
+      images: [...s.images, image],
     })),
 
-  setImageAltText: (localId, altText) =>
+  removeImage: (imageId) =>
     set((s) => ({
-      images: { ...s.images, [localId]: { ...s.images[localId], altText } },
+      images: s.images.filter((img) => img.id !== imageId),
     })),
-
-  setImageStatus: (localId, status, uploaded, error) =>
-    set((s) => ({
-      images: { ...s.images, [localId]: { ...s.images[localId], status, uploaded, error } },
-    })),
-
-  removeImage: (localId) =>
-    set((s) => {
-      const next = { ...s.images };
-      // Revoke the object URL to avoid memory leaks
-      if (next[localId]?.preview) URL.revokeObjectURL(next[localId].preview);
-      delete next[localId];
-      return { images: next };
-    }),
 
   setVariantImage: (variantId, file, preview) =>
     set((s) => ({
@@ -123,12 +99,17 @@ export const useMultiStepStore = create<MultiStepState>((set) => ({
     })),
 
   setVariantImageStatus: (variantId, status) =>
-    set((s) => ({
-      variantImages: {
-        ...s.variantImages,
-        [variantId]: { ...s.variantImages[variantId], status },
-      },
-    })),
+    set((s) => {
+      const current = s.variantImages[variantId];
+      if (!current) return s;
+
+      return {
+        variantImages: {
+          ...s.variantImages,
+          [variantId]: { ...current, status },
+        },
+      };
+    }),
 
   removeVariantImage: (variantId) =>
     set((s) => {
@@ -140,12 +121,15 @@ export const useMultiStepStore = create<MultiStepState>((set) => ({
 
   reset: () =>
     set((s) => {
-      Object.values(s.images).forEach((img) => {
-        if (img.preview) URL.revokeObjectURL(img.preview);
-      });
       Object.values(s.variantImages).forEach((img) => {
         if (img.preview) URL.revokeObjectURL(img.preview);
       });
-      return initialState;
+
+      return {
+        ...initialState,
+        variants: [],
+        images: [],
+        variantImages: {},
+      };
     }),
 }));

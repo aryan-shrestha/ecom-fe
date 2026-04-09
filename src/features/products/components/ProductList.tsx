@@ -1,34 +1,28 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
-import Link from "next/link";
+import Link from 'next/link';
 
-import EmptyProductList from "./EmptyProductList";
-import { LoadingBlock } from "@/components/common/LoadingBlock";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { useProductsListQuery } from "@/features/products";
-import { type ProductListFilters, ProductStatus } from "@/features/products";
-import { ROUTES } from "@/lib/routes/paths";
-import { Plus, Search } from "lucide-react";
+import EmptyProductList from './EmptyProductList';
+import { LoadingBlock } from '@/components/common/LoadingBlock';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { useProductsListQuery } from '@/features/products';
+import { type ProductListFilters, ProductStatus } from '@/features/products';
+import { ROUTES } from '@/lib/routes/paths';
+import { Plus, Search } from 'lucide-react';
 
 export function ProductList() {
   const [filters, setFilters] = useState<ProductListFilters>({
     offset: 0,
     limit: 20,
-    sort_by: "created_at",
+    sort_by: 'created_at',
     sort_desc: true,
   });
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   const { data, isLoading, error } = useProductsListQuery(filters);
 
@@ -46,16 +40,13 @@ export function ProductList() {
 
   const getStatusBadge = (status: ProductStatus) => {
     const variants = {
-      [ProductStatus.DRAFT]: "warning",
-      [ProductStatus.PUBLISHED]: "success",
-      [ProductStatus.ARCHIVED]: "destructive",
+      [ProductStatus.DRAFT]: 'warning',
+      [ProductStatus.PUBLISHED]: 'success',
+      [ProductStatus.ARCHIVED]: 'destructive',
     } as const;
 
     return (
-      <Badge
-        variant={variants[status] || "secondary"}
-        className="mr-2 lowercase"
-      >
+      <Badge variant={variants[status] || 'secondary'} className="mr-2 lowercase">
         {status}
       </Badge>
     );
@@ -70,8 +61,7 @@ export function ProductList() {
       <Card>
         <CardContent className="p-6">
           <p className="text-red-600">
-            Error loading products:{" "}
-            {error instanceof Error ? error.message : "Unknown error"}
+            Error loading products: {error instanceof Error ? error.message : 'Unknown error'}
           </p>
         </CardContent>
       </Card>
@@ -86,9 +76,7 @@ export function ProductList() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">Products</h1>
-          <p className="text-sm text-muted-foreground">
-            Manage your product catalog
-          </p>
+          <p className="text-sm text-muted-foreground">Manage your product catalog</p>
         </div>
         <Link href={ROUTES.PRODUCTS_NEW}>
           <Button size="sm">
@@ -103,38 +91,28 @@ export function ProductList() {
         <CardContent className="space-y-4 p-0">
           <div className="flex flex-wrap gap-2">
             <Button
-              variant={!filters.status ? "default" : "outline"}
+              variant={!filters.status ? 'default' : 'outline'}
               size="sm"
               onClick={() => handleStatusFilter(undefined)}
             >
               All
             </Button>
             <Button
-              variant={
-                filters.status === ProductStatus.DRAFT ? "default" : "outline"
-              }
+              variant={filters.status === ProductStatus.DRAFT ? 'default' : 'outline'}
               size="sm"
               onClick={() => handleStatusFilter(ProductStatus.DRAFT)}
             >
               Draft
             </Button>
             <Button
-              variant={
-                filters.status === ProductStatus.PUBLISHED
-                  ? "default"
-                  : "outline"
-              }
+              variant={filters.status === ProductStatus.PUBLISHED ? 'default' : 'outline'}
               size="sm"
               onClick={() => handleStatusFilter(ProductStatus.PUBLISHED)}
             >
               Published
             </Button>
             <Button
-              variant={
-                filters.status === ProductStatus.ARCHIVED
-                  ? "default"
-                  : "outline"
-              }
+              variant={filters.status === ProductStatus.ARCHIVED ? 'default' : 'outline'}
               size="sm"
               onClick={() => handleStatusFilter(ProductStatus.ARCHIVED)}
             >
@@ -144,14 +122,14 @@ export function ProductList() {
 
           <div className="flex flex-wrap gap-2">
             <Button
-              variant={filters.featured === undefined ? "default" : "outline"}
+              variant={filters.featured === undefined ? 'default' : 'outline'}
               size="sm"
               onClick={() => handleFeaturedFilter(undefined)}
             >
               All Products
             </Button>
             <Button
-              variant={filters.featured === true ? "default" : "outline"}
+              variant={filters.featured === true ? 'default' : 'outline'}
               size="sm"
               onClick={() => handleFeaturedFilter(true)}
             >
@@ -167,7 +145,7 @@ export function ProductList() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") {
+                  if (e.key === 'Enter') {
                     handleTagFilter(searchTerm);
                   }
                 }}
@@ -179,8 +157,8 @@ export function ProductList() {
               <Button
                 variant="outline"
                 onClick={() => {
-                  setSearchTerm("");
-                  handleTagFilter("");
+                  setSearchTerm('');
+                  handleTagFilter('');
                 }}
               >
                 Clear
@@ -197,27 +175,17 @@ export function ProductList() {
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {products.map((product) => (
-            <Link
-              key={product.id}
-              href={`${ROUTES.PRODUCTS}/${product.id}`}
-              className="block"
-            >
+            <Link key={product.id} href={`${ROUTES.PRODUCTS}/${product.id}`} className="block">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg capitalize">
-                    {product.name}
-                  </CardTitle>
-                  <CardDescription>
-                    {product.description_short || "No description"}
-                  </CardDescription>
+                  <CardTitle className="text-lg capitalize">{product.name}</CardTitle>
+                  <CardDescription>{product.description_short || 'No description'}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div></div>
                   <div>
                     {getStatusBadge(product.status)}
-                    {product.featured && (
-                      <Badge className="mr-2">Featured</Badge>
-                    )}
+                    {product.featured && <Badge className="mr-2">Featured</Badge>}
                   </div>
                 </CardContent>
               </Card>
@@ -242,8 +210,8 @@ export function ProductList() {
             Previous
           </Button>
           <span className="text-sm text-gray-600">
-            Showing {filters.offset! + 1} -{" "}
-            {Math.min(filters.offset! + filters.limit!, total)} of {total}
+            Showing {filters.offset! + 1} - {Math.min(filters.offset! + filters.limit!, total)} of{' '}
+            {total}
           </span>
           <Button
             variant="outline"

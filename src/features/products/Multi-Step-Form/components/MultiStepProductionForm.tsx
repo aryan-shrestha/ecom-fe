@@ -1,19 +1,21 @@
 'use client';
 
-import { useMultiStepStore } from '@features/products/Multi-Step-Form/store/useMultiStepStore';
-import { StepIndicator } from '@features/products/Multi-Step-Form/components/StepIndicator';
-import { ProductInfoStep } from '@features/products/Multi-Step-Form/components/steps/ProductInfoStep';
-import { ProductSettingsStep } from '@features/products/Multi-Step-Form/components/steps/ProductSettingsStep';
-import { ImageUploadStep } from '@features/products/Multi-Step-Form/components/steps/ImageUploadStep';
-import { VariantStep } from '@features/products/Multi-Step-Form/components/steps/VariantStep';
-import { ReviewStep } from '@features/products/Multi-Step-Form/components/steps/ReviewStep';
+import { useMultiStepStore } from '@/features/products/multi-step-form/store/useMultiStepStore';
+import { StepIndicator } from '@/features/products/multi-step-form/components/StepIndicator';
+import { ProductInfoStep } from '@/features/products/multi-step-form/components/steps/ProductInfoStep';
+import { ProductSettingsStep } from '@/features/products/multi-step-form/components/steps/ProductSettingsStep';
+import { ImageUploadStep } from '@/features/products/multi-step-form/components/steps/ImageUploadStep';
+import { VariantStep } from '@/features/products/multi-step-form/components/steps/VariantStep';
+import { ReviewStep } from '@/features/products/multi-step-form/components/steps/ReviewStep';
 import type { CreateProductRequest } from '@/features/products/types/products.types';
 import { useCreateProductMutation } from '../../queries/products.queries';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useEffect } from 'react';
 
 export function MultiStepProductForm() {
   const {
     currentStep,
-    subStep,
     productId,
     productData,
     variants,
@@ -25,81 +27,58 @@ export function MultiStepProductForm() {
     removeVariant,
   } = useMultiStepStore();
 
-  const { mutate: createProduct, isPending, error: createError } = useCreateProductMutation();
-
-  const handleInfoNext = (infoData: Partial<CreateProductRequest>) => {
-    setProductData({ ...(productData ?? {}), ...infoData } as CreateProductRequest);
-    setSubStep('settings');
-  };
-
-  const handleSettingsNext = (settingsData: Partial<CreateProductRequest>) => {
-    const merged: CreateProductRequest = {
-      ...(productData ?? {}),
-      ...settingsData,
-    } as CreateProductRequest;
-    setProductData(merged);
-
-    if (productId) {
-      setStep(2);
-      return;
-    }
-
-    createProduct(merged, {
-      onSuccess: (product) => {
-        setProductId(product.id);
-        setStep(2);
-      },
-    });
-  };
+  // TEMP: Auto-advance to step 2 with a dummy product ID for easier development of later steps
+  useEffect(() => {
+    setProductId('021cb34a-ca5f-4bf3-8150-a2180b6a4b24');
+    setStep(2);
+  }, []);
 
   return (
     <div className="py-8">
-      <StepIndicator currentStep={currentStep} />
+      <Card>
+        <CardHeader>
+          <h2 className="text-lg font-semibold">Product Creation</h2>
+          <p className="text-sm text-muted-foreground">
+            Follow the steps to add a new product to your catalog
+          </p>
+        </CardHeader>
+        <CardContent>
+          <StepIndicator currentStep={currentStep} />
 
-      {currentStep === 1 && subStep === 'info' && (
-        <ProductInfoStep defaultValues={productData ?? undefined} onNext={handleInfoNext} />
-      )}
+          {currentStep === 1 && <ProductInfoStep />}
 
-      {currentStep === 1 && subStep === 'settings' && (
-        <ProductSettingsStep
-          defaultValues={productData ?? undefined}
-          isPending={isPending}
-          error={createError?.message ?? null}
-          onBack={() => setSubStep('info')}
-          onNext={handleSettingsNext}
-        />
-      )}
+          {currentStep === 2 && productId && (
+            <ImageUploadStep
+              productId={productId}
+              onBack={() => {
+                setStep(1);
+                setSubStep('settings');
+              }}
+              onNext={() => setStep(3)}
+            />
+          )}
 
-      {currentStep === 2 && productId && (
-        <ImageUploadStep
-          productId={productId}
-          onBack={() => {
-            setStep(1);
-            setSubStep('settings');
-          }}
-          onNext={() => setStep(3)}
-        />
-      )}
+          {currentStep === 3 && productId && (
+            <VariantStep
+              productId={productId}
+              variants={variants}
+              onVariantAdded={addVariant}
+              onVariantRemoved={removeVariant}
+              onBack={() => setStep(2)}
+              onNext={() => setStep(4)}
+            />
+          )}
 
-      {currentStep === 3 && productId && (
-        <VariantStep
-          productId={productId}
-          variants={variants}
-          onVariantAdded={addVariant}
-          onVariantRemoved={removeVariant}
-          onBack={() => setStep(2)}
-          onNext={() => setStep(4)}
-        />
-      )}
-
-      {currentStep === 4 && productId && productData && (
-        <ReviewStep
-          productId={productId}
-          productData={productData}
-          variants={variants}
-          onBack={() => setStep(3)}
-        />
-      )}
+          {currentStep === 4 && productId && productData && (
+            <ReviewStep
+              productId={productId}
+              productData={productData}
+              variants={variants}
+              onBack={() => setStep(3)}
+            />
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
