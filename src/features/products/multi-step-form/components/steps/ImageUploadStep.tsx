@@ -104,18 +104,20 @@ export function ImageUploadStep({ productId, onBack, onNext }: ImageUploadStepPr
       {/* Uploaded images and skeletons */}
       <div className="grid grid-cols-3 gap-4">
         {images.map((image) => (
-          <div key={image.id} className="relative">
+          <div key={image.id} className="relative h-[120px] w-[120px]">
             <Image
               src={image.url}
               alt={image.alt_text || 'Product Image'}
               width={120}
               height={120}
-              className="rounded-lg object-cover"
+              className="h-full w-full rounded-lg object-cover"
             />
+
             <Button
+              type="button"
               variant="destructive"
-              size="sm"
-              className="absolute right-2 top-2"
+              size="icon"
+              className="absolute right-2 top-2 z-10"
               onClick={() => handleDeleteImage(image.id)}
             >
               <Trash2 className="h-4 w-4" />
