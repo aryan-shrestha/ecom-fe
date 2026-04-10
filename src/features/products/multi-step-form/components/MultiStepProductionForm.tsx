@@ -22,12 +22,6 @@ export function MultiStepProductForm() {
     removeVariant,
   } = useMultiStepStore();
 
-  // TEMP: Auto-advance to step 2 with a dummy product ID for easier development of later steps
-  useEffect(() => {
-    setProductId('021cb34a-ca5f-4bf3-8150-a2180b6a4b24');
-    setStep(2);
-  }, []);
-
   return (
     <div className="py-8">
       <Card>
